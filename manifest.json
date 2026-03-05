@@ -1,0 +1,12 @@
+{
+  "background_color": "#ffffff",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "Poli App",
+  "orientation": "portrait",
+  "scope": "/",
+  "short_name": "Poli",
+  "start_url": "https://mateewwwwxdxfd.github.io/Poli-App/",
+  "theme_color": "#071cff",
+  "lang": "es"
+}
