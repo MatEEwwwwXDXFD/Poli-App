@@ -6,23 +6,9 @@
 <title>Poli App</title>
 
 <style>
-body, html {margin:0; padding:0; font-family: system-ui; height:100%;}
+body, html {margin:0; padding:0; font-family: system-ui; height:100%; overflow-x:hidden;}
 
-/* Splash screen */
-#splash {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  background:#eef5ff; display:flex; align-items:center; justify-content:center; flex-direction:column;
-  z-index:9999; overflow:hidden;
-}
-#logo { font-size:36px; font-weight:bold; color:#1c4fd7; white-space:nowrap; }
-#logo span { display:inline-block; opacity:0; transform:translateY(20px); animation:paint 1s forwards; }
-@keyframes paint { 0% {opacity:0; transform:translateY(20px);} 50% {opacity:1; transform:translateY(-5px);} 100% {opacity:1; transform:translateY(0);} }
-#logo span:nth-child(1){animation-delay:0s;} #logo span:nth-child(2){animation-delay:0.1s;}
-#logo span:nth-child(3){animation-delay:0.2s;} #logo span:nth-child(4){animation-delay:0.3s;}
-#logo span:nth-child(5){animation-delay:0.4s;} #logo span:nth-child(6){animation-delay:0.5s;}
-#logo span:nth-child(7){animation-delay:0.6s;} #logo span:nth-child(8){animation-delay:0.7s;}
-
-/* Fondo cuadritos animado */
+/* Fondo cuadriculado animado */
 body {
   background-color:#eef5ff;
   background-image:
@@ -32,52 +18,86 @@ body {
     linear-gradient(-45deg,transparent 75%,#c7ddff 75%);
   background-size:40px 40px;
   background-position:0 0,0 20px,20px -20px,-20px 0px;
-  animation: bgMove 20s linear infinite;
+  animation: bgMove 25s linear infinite;
 }
-@keyframes bgMove { 0%{background-position:0 0,0 20px,20px -20px,-20px 0px;} 50%{background-position:40px 40px,40px 60px,60px 20px,20px 40px;} 100%{background-position:0 0,0 20px,20px -20px,-20px 0px;} }
+@keyframes bgMove {
+  0%{background-position:0 0,0 20px,20px -20px,-20px 0px;}
+  50%{background-position:40px 40px,40px 60px,60px 20px,20px 40px;}
+  100%{background-position:0 0,0 20px,20px -20px,-20px 0px;}
+}
+
+/* Splash animado */
+#splash {
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:#eef5ff; display:flex; align-items:center; justify-content:center; flex-direction:column;
+  z-index:9999; overflow:hidden;
+}
+#logo { font-size:40px; font-weight:bold; color:#1c4fd7; white-space:nowrap; cursor:pointer; }
+#logo span { display:inline-block; opacity:0; transform:translateY(30px) rotate(-10deg); animation:paint 0.8s forwards; }
+@keyframes paint {
+  0% {opacity:0; transform:translateY(30px) rotate(-10deg);}
+  50% {opacity:1; transform:translateY(-5px) rotate(5deg);}
+  100% {opacity:1; transform:translateY(0) rotate(0);}
+}
 
 /* Header */
-header{
+header {
   background:#1c4fd7; color:white; text-align:center; padding:18px; font-size:22px; font-weight:bold;
   box-shadow:0 3px 8px rgba(0,0,0,0.2); animation: headerPulse 3s ease-in-out infinite;
 }
 @keyframes headerPulse {0%,100%{transform:scale(1);}50%{transform:scale(1.03);}}
 
 /* Main y cards */
-main {padding:20px; padding-bottom:120px;}
+main {padding:20px; padding-bottom:130px;}
 .card{
-  background:white; border-radius:14px; padding:18px; margin-bottom:15px;
-  box-shadow:0 6px 14px rgba(0,0,0,0.15); animation: fadeUp 0.6s ease forwards; opacity:0;
+  background:white; border-radius:16px; padding:20px; margin-bottom:20px;
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
+  transform:translateY(20px); opacity:0; transition: transform 0.5s ease, box-shadow 0.3s ease, opacity 0.5s ease; position:relative; overflow:hidden;
 }
-.card:nth-child(1){animation-delay:0.1s;} .card:nth-child(2){animation-delay:0.3s;}
-.card:nth-child(3){animation-delay:0.5s;} .card:nth-child(4){animation-delay:0.7s;}
-.card:nth-child(5){animation-delay:0.9s;}
-@keyframes fadeUp { 0%{opacity:0; transform:translateY(20px) rotate(-2deg);} 50%{transform:translateY(-5px) rotate(2deg);} 100%{opacity:1; transform:translateY(0) rotate(0deg);} }
+.card.active-anim {opacity:1; transform:translateY(0);}
+.card::before{
+  content:''; position:absolute; top:0; left:0; width:100%; height:100%;
+  background:linear-gradient(120deg, rgba(255,200,200,0.1), rgba(200,255,255,0.1), rgba(255,255,200,0.1));
+  animation: shimmer 4s infinite;
+}
+@keyframes shimmer {
+  0%{transform:translateX(-100%) translateY(-100%) rotate(0deg);}
+  100%{transform:translateX(100%) translateY(100%) rotate(360deg);}
+}
+.card:hover { transform:translateY(-5px) scale(1.03); box-shadow:0 12px 25px rgba(0,0,0,0.25); }
 
 /* Inputs y botones */
-textarea,select{width:100%;padding:12px;margin-top:10px;border-radius:10px;border:1px solid #ccc;font-size:15px;transition: transform 0.2s, box-shadow 0.2s;}
-textarea:focus, select:focus{transform:scale(1.02);box-shadow:0 0 10px rgba(28,79,215,0.3);outline:none;}
-button{margin-top:10px;padding:12px;width:100%;border:none;border-radius:10px;background:#1c4fd7;color:white;font-size:15px;cursor:pointer;font-weight:bold;transition: transform 0.2s, background 0.2s, box-shadow 0.2s;}
-button:hover{background:#163ea9;transform:scale(1.05);box-shadow:0 6px 15px rgba(0,0,0,0.2);}
+textarea, select { width:100%; padding:14px; margin-top:12px; border-radius:12px; border:1px solid #ccc; font-size:15px; transition: transform 0.2s, box-shadow 0.2s; }
+textarea:focus, select:focus { transform:scale(1.02); box-shadow:0 0 12px rgba(28,79,215,0.3); outline:none; }
+button { margin-top:12px; padding:14px; width:100%; border:none; border-radius:12px; background:#1c4fd7; color:white; font-size:16px; cursor:pointer; font-weight:bold; transition: transform 0.2s, background 0.2s, box-shadow 0.2s; }
+button:hover { background:#163ea9; transform:scale(1.05); box-shadow:0 8px 20px rgba(0,0,0,0.25); }
 
 /* Nav inferior */
-nav {position:fixed;bottom:0;width:100%;display:flex;background:white;box-shadow:0 -3px 10px rgba(0,0,0,0.15);z-index:1000;}
-nav button{flex:1;background:none;border:none;padding:15px;font-size:13px;cursor:pointer;transition: transform 0.2s, background 0.2s;}
-nav button:hover{background:rgba(28,79,215,0.1);transform:scale(1.05);}
+nav { position:fixed; bottom:0; width:100%; display:flex; background:white; box-shadow:0 -3px 10px rgba(0,0,0,0.15); z-index:1000; }
+nav button { flex:1; background:none; border:none; padding:15px; font-size:13px; cursor:pointer; transition: transform 0.2s, background 0.2s; }
+nav button:hover { background:rgba(28,79,215,0.1); transform:scale(1.05); }
 
 /* Sections */
-.section{display:none;}
-.section.active{display:block;}
+.section {display:none;}
+.section.active {display:block; animation: fadeSection 0.5s ease;}
+@keyframes fadeSection {0%{opacity:0; transform:translateY(15px);}100%{opacity:1; transform:translateY(0);}}
 
-#mensaje{margin-top:10px;font-weight:bold;color:green;}
-.info-list{list-style:none;padding:0;margin:0;}
-.info-list li{margin-bottom:8px;font-size:15px;line-height:1.4;}
-.info-list li span{font-weight:bold;}
+/* Info lista artística */
+.info-list {list-style:none; padding:0; margin:0;}
+.info-list li {margin-bottom:10px; font-size:15px; line-height:1.5;}
+.info-list li span {font-weight:bold; color:#1c4fd7; display:block;}
+
+/* Mensaje */
+#mensaje {margin-top:10px; font-weight:bold; color:green;}
+
+/* Animación musical hover */
+.music-hover { cursor:pointer; display:block; transition: transform 0.2s; }
+.music-hover:hover { transform:scale(1.1) rotate(-3deg); color:#ff4500; }
 </style>
 </head>
 <body>
 
-<!-- Splash screen -->
+<!-- Splash -->
 <div id="splash">
   <div id="logo">
     <span>P</span><span>O</span><span>L</span><span>I</span> <span>A</span><span>P</span><span>P</span>
@@ -88,16 +108,20 @@ nav button:hover{background:rgba(28,79,215,0.1);transform:scale(1.05);}
 <header>🎨 Poli App</header>
 
 <main>
+<!-- Inicio -->
 <section id="inicio" class="section active">
-  <div class="card"><h2>Bienvenido al Poli</h2><p>Plataforma para estudiantes del Polivalente de Arte Tandil.</p></div>
+  <div class="card active-anim"><h2>Bienvenido al Poli</h2>
+  <p>Plataforma para estudiantes del Polivalente de Arte Tandil.</p></div>
 </section>
 
+<!-- Calendario -->
 <section id="calendario" class="section">
-  <div class="card"><h3>9 de Marzo</h3><p>Inicio de clases</p><p>2° a 6° año</p></div>
+  <div class="card active-anim"><h3>9 de Marzo</h3><p>Inicio de clases</p><p>2° a 6° año</p></div>
 </section>
 
+<!-- Sugerencias -->
 <section id="sugerencias" class="section">
-  <div class="card">
+  <div class="card active-anim">
     <h3>¡Envía tu sugerencia!</h3>
     <form id="formSugerencia" action="https://formspree.io/f/mreyzvgd" method="POST">
       <select name="categoria">
@@ -113,21 +137,23 @@ nav button:hover{background:rgba(28,79,215,0.1);transform:scale(1.05);}
   </div>
 </section>
 
+<!-- Anuncios -->
 <section id="anuncios" class="section">
-  <div class="card"><h3>9 DE MARZO</h3><p>Paro docente por el Día Internacional de la Mujer.</p></div>
+  <div class="card active-anim"><h3>9 DE MARZO</h3><p>Paro docente por el Día Internacional de la Mujer.</p></div>
 </section>
 
+<!-- Información -->
 <section id="info" class="section">
-  <div class="card">
+  <div class="card active-anim">
     <h3>Información Importante 🏫</h3>
     <ul class="info-list">
       <li><span>Integrantes del Centro de Estudiantes:</span></li>
-      <li>Presidente - Benito Lagomarsino</li>
-      <li>Vicepresidenta - Renata Armani</li>
-      <li>Tesorera - Julieta Almaraz</li>
-      <li>Secretaria - Julieta Bonarrigo</li>
-      <li>Consejera - Veronica Valdegrama</li>
-      <li>Vocales - Santiago Garra, Amanda Vergara, Emma Echeverría Macchi, Julia Debeza, Mikaela Denegri Rossi, Santiago Fuentes</li>
+      <li class="music-hover" data-note="C4">Presidente - Benito Lagomarsino (Música 🎵)</li>
+      <li class="music-hover" data-note="D4">Vicepresidenta - Renata Armani (Música 🎶)</li>
+      <li class="music-hover" data-note="E4">Tesorera - Julieta Almaraz</li>
+      <li class="music-hover" data-note="F4">Secretaria - Julieta Bonarrigo</li>
+      <li class="music-hover" data-note="G4">Consejera - Veronica Valdegrama</li>
+      <li class="music-hover" data-note="C4,E4,G4">Vocales - Santiago Garra, Amanda Vergera, Emma Echeverría Macchi, Julia Debeza, Mikaela Denegri Rossi, Santiago Fuentes</li>
       <li><span>App desarrollada por:</span> Mateo Cappelluti / Mateo Producciones X My Web App</li>
       <li><span>Redes Sociales:</span> @cepolivalentetandil | @mateoproducciones</li>
     </ul>
@@ -150,6 +176,7 @@ window.addEventListener('load', ()=>{
   setTimeout(()=>{
     document.getElementById('splash').style.display='none';
     document.getElementById('app').style.display='block';
+    document.querySelectorAll('.card').forEach(c=>c.classList.add('active-anim'));
   },2000);
 });
 
@@ -180,6 +207,30 @@ form.addEventListener("submit", async (e)=>{
     document.getElementById("mensaje").innerText="❌ Error al enviar";
   }
 });
+
+// Reproducir notas musicales al hover
+document.querySelectorAll(".music-hover").forEach(el=>{
+  el.addEventListener("mouseenter", ()=>{
+    const notes = el.dataset.note.split(",");
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    notes.forEach(n=>{
+      const o = ctx.createOscillator();
+      const g = ctx.createGain();
+      o.type='sine';
+      o.frequency.value = noteToFreq(n.trim());
+      o.connect(g);
+      g.connect(ctx.destination);
+      o.start();
+      g.gain.setValueAtTime(0.2,ctx.currentTime);
+      o.stop(ctx.currentTime + 0.5);
+    });
+  });
+});
+
+function noteToFreq(note){
+  const notes = {"C4":261.63,"D4":293.66,"E4":329.63,"F4":349.23,"G4":392.00,"A4":440.00,"B4":493.88};
+  return notes[note] || 440;
+}
 </script>
 
 </body>
