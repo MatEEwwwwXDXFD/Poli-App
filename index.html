@@ -3,15 +3,67 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Poli Comunidad</title>
+<title>Poli App</title>
 
 <style>
-/* Fuentes y fondo estilo cuadritos */
-body {
-  margin:0;
-  font-family: system-ui;
-  background-color:#eef5ff;
+/* Fuente y reset */
+body, html {margin:0; padding:0; font-family: system-ui; height:100%;}
 
+/* Splash screen */
+#splash {
+  position:fixed;
+  top:0; left:0; width:100%; height:100%;
+  background:#eef5ff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  z-index:9999;
+  overflow:hidden;
+}
+
+#logo {
+  font-size:36px;
+  font-weight:bold;
+  color:#1c4fd7;
+  position:relative;
+  white-space:nowrap;
+}
+
+#logo span {
+  display:inline-block;
+  opacity:0;
+  transform:translateY(20px);
+  animation:paint 1s forwards;
+}
+
+@keyframes paint {
+  0% {opacity:0; transform:translateY(20px);}
+  50% {opacity:1; transform:translateY(-5px);}
+  100% {opacity:1; transform:translateY(0);}
+}
+
+/* Retardo progresivo para cada letra */
+#logo span:nth-child(1){animation-delay:0s;}
+#logo span:nth-child(2){animation-delay:0.1s;}
+#logo span:nth-child(3){animation-delay:0.2s;}
+#logo span:nth-child(4){animation-delay:0.3s;}
+#logo span:nth-child(5){animation-delay:0.4s;}
+#logo span:nth-child(6){animation-delay:0.5s;}
+#logo span:nth-child(7){animation-delay:0.6s;}
+#logo span:nth-child(8){animation-delay:0.7s;}
+#logo span:nth-child(9){animation-delay:0.8s;}
+#logo span:nth-child(10){animation-delay:0.9s;}
+
+/* App principal oculto inicialmente */
+#app {
+  display:none;
+  height:100%;
+}
+
+/* Mantener tu estilo cuadritos y animaciones previas */
+body {
+  background-color:#eef5ff;
   background-image:
     linear-gradient(45deg,#c7ddff 25%,transparent 25%),
     linear-gradient(-45deg,#c7ddff 25%,transparent 25%),
@@ -19,7 +71,6 @@ body {
     linear-gradient(-45deg,transparent 75%,#c7ddff 75%);
   background-size:40px 40px;
   background-position:0 0,0 20px,20px -20px,-20px 0px;
-
   animation: bgMove 20s linear infinite;
 }
 
@@ -29,7 +80,8 @@ body {
   100%{background-position:0 0,0 20px,20px -20px,-20px 0px;}
 }
 
-header {
+/* Header y nav */
+header{
   background:#1c4fd7;
   color:white;
   text-align:center;
@@ -45,13 +97,9 @@ header {
   50%{transform:scale(1.03);}
 }
 
-main {
-  padding:20px;
-  padding-bottom:120px;
-}
+main {padding:20px; padding-bottom:120px;}
 
-/* Cards animadas */
-.card {
+.card{
   background:white;
   border-radius:14px;
   padding:18px;
@@ -73,96 +121,46 @@ main {
   100%{opacity:1; transform:translateY(0) rotate(0deg);}
 }
 
-/* Inputs */
-textarea,select {
-  width:100%;
-  padding:12px;
-  margin-top:10px;
-  border-radius:10px;
-  border:1px solid #ccc;
-  font-size:15px;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
+/* Inputs y botones */
+textarea,select{width:100%;padding:12px;margin-top:10px;border-radius:10px;border:1px solid #ccc;font-size:15px;transition: transform 0.2s, box-shadow 0.2s;}
+textarea:focus, select:focus{transform:scale(1.02);box-shadow:0 0 10px rgba(28,79,215,0.3);outline:none;}
 
-textarea:focus, select:focus {
-  transform:scale(1.02);
-  box-shadow:0 0 10px rgba(28,79,215,0.3);
-  outline:none;
-}
-
-/* Botones */
-button {
-  margin-top:10px;
-  padding:12px;
-  width:100%;
-  border:none;
-  border-radius:10px;
-  background:#1c4fd7;
-  color:white;
-  font-size:15px;
-  cursor:pointer;
-  font-weight:bold;
-  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-}
-
-button:hover {
-  background:#163ea9;
-  transform:scale(1.05);
-  box-shadow:0 6px 15px rgba(0,0,0,0.2);
-}
+button{margin-top:10px;padding:12px;width:100%;border:none;border-radius:10px;background:#1c4fd7;color:white;font-size:15px;cursor:pointer;font-weight:bold;transition: transform 0.2s, background 0.2s, box-shadow 0.2s;}
+button:hover{background:#163ea9;transform:scale(1.05);box-shadow:0 6px 15px rgba(0,0,0,0.2);}
 
 /* Nav inferior */
-nav {
-  position:fixed;
-  bottom:0;
-  width:100%;
-  background:white;
-  display:flex;
-  box-shadow:0 -3px 10px rgba(0,0,0,0.15);
-  z-index:1000;
-}
-
-nav button {
-  flex:1;
-  background:none;
-  border:none;
-  padding:15px;
-  font-size:13px;
-  cursor:pointer;
-  transition: transform 0.2s, background 0.2s;
-}
-
-nav button:hover {
-  background:rgba(28,79,215,0.1);
-  transform:scale(1.05);
-}
+nav {position:fixed;bottom:0;width:100%;display:flex;background:white;box-shadow:0 -3px 10px rgba(0,0,0,0.15);z-index:1000;}
+nav button{flex:1;background:none;border:none;padding:15px;font-size:13px;cursor:pointer;transition: transform 0.2s, background 0.2s;}
+nav button:hover{background:rgba(28,79,215,0.1);transform:scale(1.05);}
 
 /* Sections */
-.section { display:none; }
-.section.active { display:block; }
+.section{display:none;}
+.section.active{display:block;}
 
-/* Mensaje */
-#mensaje {
-  margin-top:10px;
-  font-weight:bold;
-  color:green;
-}
+#mensaje{margin-top:10px;font-weight:bold;color:green;}
 </style>
 </head>
 
 <body>
 
-<header>
-🎨 Poli Comunidad
-</header>
+<!-- Splash screen -->
+<div id="splash">
+  <div id="logo">
+    <!-- Logo “pintado” letra por letra -->
+    <span>P</span><span>O</span><span>L</span><span>I</span> <span>A</span><span>P</span><span>P</span>
+  </div>
+</div>
+
+<!-- App principal -->
+<div id="app">
+
+<header>🎨 Poli App</header>
 
 <main>
-
 <section id="inicio" class="section active">
   <div class="card">
     <h2>Bienvenido al Poli</h2>
     <p>Plataforma para estudiantes del Polivalente de Arte Tandil.</p>
-    <p>Explorá eventos, anuncios y compartí tus ideas de manera anónima.</p>
   </div>
 </section>
 
@@ -208,6 +206,14 @@ nav button:hover {
 </nav>
 
 <script>
+// Splash: oculta y muestra app
+window.addEventListener('load', ()=>{
+  setTimeout(()=>{
+    document.getElementById('splash').style.display='none';
+    document.getElementById('app').style.display='block';
+  },2000); // 2 segundos de splash
+});
+
 // Cambiar secciones
 function cambiar(id){
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
