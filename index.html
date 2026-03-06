@@ -11,9 +11,19 @@
 <script>
 window.OneSignalDeferred = window.OneSignalDeferred || [];
 OneSignalDeferred.push(async function(OneSignal) {
+
   await OneSignal.init({
     appId: "228c0ea9-4330-44ef-9d3f-f07f297f9dd4",
+    notifyButton: {
+      enable: true
+    }
   });
+
+  // Forzar solicitud de permiso
+  setTimeout(function(){
+    OneSignal.Notifications.requestPermission();
+  },2000);
+
 });
 </script>
 
